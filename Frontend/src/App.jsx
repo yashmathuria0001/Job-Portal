@@ -1,14 +1,16 @@
-
-import './App.css'
+import React, { useState } from 'react'; // Import useState from React
+import './App.css';
+import Navbar from './components/shared/Navbar.Jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0); // Initialize the count state
 
   return (
     <>
-     <h1 className="text-red-500">Lets build job portal</h1>
+      
+      <Navbar/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
