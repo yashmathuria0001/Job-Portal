@@ -12,8 +12,8 @@ const Navbar = () => {
       <div className="flex items-center justify-between mx-auto max-w-7xl h-16">
         <div>
           <h1 className="text-2xl font-bold underline offset-1 hover:underline-offset-4">
-            Carrer{" "}
-            <span className="text-[#00A9FF] underline offset-1 hover:underline-offset-4">
+            Carrer{"     "}
+            <span className="text-[#7AB2D3] underline offset-1 hover:underline-offset-4">
               Hunt
             </span>
           </h1>
@@ -28,7 +28,7 @@ const Navbar = () => {
           !User?(
             <div className="flex items-center gap-2">
                 <Button variant="outline">Login</Button>
-                <Button className="bg-[#89CFF3] hover:bg-[#A0E9FF]">SignUp</Button>
+                <Button className="bg-[#7AB2D3] hover:bg-[#086582]">SignUp</Button>
             </div>
           ):(
           <Popover>

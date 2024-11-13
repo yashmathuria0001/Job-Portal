@@ -6,6 +6,21 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {Button} from "@/components/ui/button"
 import { Link } from "react-router-dom";
 const Signup = () => {
+    const [input, setInput] = useState({
+        fullname: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        role: "",
+        file: ""
+    });
+
+    const changeEventHandler = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value });
+    }
+    const changeFileHandler = (e) => {
+        setInput({ ...input, file: e.target.files?.[0] });
+    }
   return (
     <div>
       <Navbar />
