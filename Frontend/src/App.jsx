@@ -1,14 +1,31 @@
-import React, { useState } from 'react'; // Import useState from React
-import './App.css';
-import Navbar from './components/shared/Navbar.Jsx'
+import React, { useState } from "react"; // Import useState from React
+import "./App.css";
+import Navbar from "./components/shared/Navbar.Jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
+import Home from "./components/Home";
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/Login",
+    element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+]);
 
 function App() {
   const [count, setCount] = useState(0); // Initialize the count state
 
   return (
     <>
-      
-      <Navbar/>
+      <RouterProvider router={appRouter} />
     </>
   );
 }
