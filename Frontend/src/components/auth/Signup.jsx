@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {Button} from "@/components/ui/button"
 import { Link } from "react-router-dom";
+import { useState } from "react";
 const Signup = () => {
     const [input, setInput] = useState({
         fullname: "",
@@ -21,6 +22,36 @@ const Signup = () => {
     const changeFileHandler = (e) => {
         setInput({ ...input, file: e.target.files?.[0] });
     }
+
+    const submitHandler = async (e) => {
+      e.preventDefault();
+      const formData = new FormData();    //formdata object
+      formData.append("fullname", input.fullname);
+      formData.append("email", input.email);
+      formData.append("phoneNumber", input.phoneNumber);
+      formData.append("password", input.password);
+      formData.append("role", input.role);
+      if (input.file) {
+          formData.append("file", input.file);
+      }
+
+      try {
+          dispatch(setLoading(true));
+          const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+              headers: { 'Content-Type': "multipart/form-data" },
+              withCredentials: true,
+          });
+          if (res.data.success) {
+              navigate("/login");
+              toast.success(res.data.message);
+          }
+      } catch (error) {
+          console.log(error);
+          toast.error(error.response.data.message);
+      } finally{
+          dispatch(setLoading(false));
+      }
+  }
   return (
     <div>
       <Navbar />
@@ -32,19 +63,35 @@ const Signup = () => {
           <h1 className="font-bold text-xl mb-5">SignUp</h1>
           <div className="my-2">
             <Label>Full Name</Label>
-            <Input type="text" placeholder="Yash Mathuria" />
+            <Input type="text"
+            value={input.fullname}
+            name="fullname"
+            onChange={changeEventHandler}
+            placeholder="Yash Mathuria" />
           </div>
           <div className="my-2">
             <Label>Email</Label>
-            <Input type="email" placeholder="123@gmail.com" />
+            <Input type="email"
+             value={input.email}
+             name="email"
+             onChange={changeEventHandler} 
+            placeholder="123@gmail.com" />
           </div>
           <div className="my-2">
             <Label>Phone Number</Label>
-            <Input type="tel" placeholder="1234567890" />
+            <Input type="tel"
+             value={input.phoneNumber}
+             name="phoneNumber"
+             onChange={changeEventHandler}
+             placeholder="1234567890" />
           </div>
           <div className="my-2">
             <Label>Password</Label>
-            <Input type="password" placeholder="*******" />
+            <Input type="password"
+             value={input.password}
+             name="password"
+             onChange={changeEventHandler}
+             placeholder="*******" />
           </div>
           <div className="flex items-center justify-between"></div>
           <div className="flex items-center justify-between">
@@ -54,6 +101,8 @@ const Signup = () => {
                   type="radio"
                   name="role"
                   value="student"
+                  checked={input.role==='student'}
+                  onChange={changeEventHandler}
                   className="cursor-pointer"
                 />
                 <Label htmlFor="r1">Student</Label>
@@ -62,7 +111,9 @@ const Signup = () => {
                 <Input
                   type="radio"
                   name="role"
-                  value="student"
+                  checked={input.role==='recruiter'}
+                  onChange={changeEventHandler}
+                  value="recruiter"
                   className="cursor-pointer"
                 />
                 <Label htmlFor="r2">Recruiter</Label>
@@ -70,7 +121,9 @@ const Signup = () => {
             </RadioGroup>
             <div className="flex items-center gap-2">
               <Label className="ml-4">Profile</Label>
-              <Input accept="image/*" type="file" className="cursor-pointer" />
+              <Input accept="image/*" type="file" 
+              onChange={changeFileHandler}
+              className="cursor-pointer" />
             </div>
             
           </div>
