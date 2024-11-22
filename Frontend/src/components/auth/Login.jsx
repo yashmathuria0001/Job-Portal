@@ -1,16 +1,19 @@
-import React from "react";
+import React,{useState} from "react";
 import Navbar from "../shared/Navbar";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {Button} from "@/components/ui/button"
-import { Link } from "react-router-dom";
-const Signup = () => {
+import { Link,useNavigate } from "react-router-dom";
+import {toast} from "sonner"
+
+const Login = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
     role: "",
 });
+
 
 const changeEventHandler = (e) => {
   setInput({ ...input, [e.target.name]: e.target.value });
@@ -19,7 +22,7 @@ const changeEventHandler = (e) => {
 const submitHandler = async (e) => {
   e.preventDefault();
   try {
-      dispatch(setLoading(true));
+      
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
           headers: {
               "Content-Type": "application/json"
@@ -27,15 +30,12 @@ const submitHandler = async (e) => {
           withCredentials: true,
       });
       if (res.data.success) {
-          dispatch(setUser(res.data.user));
           navigate("/");
           toast.success(res.data.message);
       }
   } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
-  } finally {
-      dispatch(setLoading(false));
   }
 }
 
@@ -93,4 +93,4 @@ const submitHandler = async (e) => {
     </div>
   );
 };
-export default Signup;
+export default Login;
