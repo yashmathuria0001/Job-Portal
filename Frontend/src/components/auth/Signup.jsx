@@ -8,7 +8,7 @@ import { Link, useNavigate} from "react-router-dom";
 import { useState } from "react";
 import { USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
-import {toast} from "sonner"
+ 
 
 const Signup = () => {
     const [input, setInput] = useState({
