@@ -5,7 +5,7 @@ import App from './App';
 
 import { Toaster } from 'sonner';
 import { Provider } from 'react-redux';
-import store from "../redux/store"
+import store from './components/redux/store';
  // Import your store here
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
