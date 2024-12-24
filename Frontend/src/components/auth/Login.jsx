@@ -31,7 +31,7 @@ const submitHandler = async (e) => {
           },
           withCredentials: true,
       });
-      console.log(input);
+      
       if (res.data.success) {
           navigate("/");
           toast.success(res.data.message);
