@@ -12,7 +12,7 @@ import { useDispatch ,useSelector} from "react-redux";
 import store from "../redux/store";
 import { setLoading,setUser } from "../redux/authSlice";
 import { Loader2 } from "lucide-react";
-
+import { setAllJobs } from "../redux/jobSlice";
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
@@ -21,7 +21,8 @@ const Login = () => {
 });
 const navigate=useNavigate();
 const dispatch=useDispatch();
-const {loading}=useSelector((store)=>store.auth);
+const {loading,user}=useSelector((store)=>store.auth);
+
 
 const changeEventHandler = (e) => {
   setInput({ ...input, [e.target.name]: e.target.value });

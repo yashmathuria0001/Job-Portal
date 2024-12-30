@@ -76,6 +76,7 @@ export const login = async (req, res) => {
     try {
         // Extracting user data from body
         const { email, password, role } = req.body;
+       
         
         /*If any of these fields are missing, a 400 Bad Request response is returned, notifying the client that something is missing.*/
 
