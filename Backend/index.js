@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());//Parses cookies sent with incoming HTTP requests and makes them accessible through req.cookies.
 const corsOptions={
-    origin:['http://localhost:5173','https://job-portal-z2n5-git-main-yash-mathurias-projects.vercel.app/'],
+    origin:['http://localhost:5173','https://job-portal-z2n5.vercel.app/'],
     credentials:true
 }
 app.use(cors(corsOptions));
