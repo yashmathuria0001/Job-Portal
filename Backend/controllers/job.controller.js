@@ -4,6 +4,7 @@ import { Job } from "../models/job.model.js";
 export const postJob = async (req, res) => {
     try {
         const { title, description, requirements, salary, location, jobType, experience, position, companyId } = req.body;
+
         const userId = req.id;
 
         if (!title || !description || !requirements || !salary || !location || !jobType || !experience || !position || !companyId) {
@@ -33,7 +34,7 @@ export const postJob = async (req, res) => {
         console.log(error);
     }
 }
-// // student k liye
+
 // This function is an asynchronous controller designed to retrieve and return all job records that match a certain keyword filter. It’s exported, making it accessible to other parts of your application.
 export const getAllJobs = async (req, res) => {
     try {
@@ -59,6 +60,8 @@ export const getAllJobs = async (req, res) => {
         })
     } catch (error) {
         console.log(error);
+        return res.status(400).json({ message: "Failed to get jobs" });
+    
     }
 }
 // student
@@ -77,6 +80,7 @@ export const getJobById = async (req, res) => {
         return res.status(200).json({ job, success: true });
     } catch (error) {
         console.log(error);
+        return res.status(400).json({message:"Failed to get job"});
     }
 }
 // admin kitne job create kra hai abhi tk
@@ -99,5 +103,6 @@ export const getAdminJobs = async (req, res) => {
         })
     } catch (error) {
         console.log(error);
+        return res.status(400).json({ message: error });
     }
 }
