@@ -8,8 +8,16 @@ const applicationSlice = createSlice({
     reducers:{
         setAllApplicants:(state,action) => {
             state.applicants = action.payload;
-        }
+        },
+        removeApplicant: (state, action) => {
+            const id = action.payload;
+            if (state.applicants?.applications) {
+              state.applicants.applications = state.applicants.applications.filter(
+                (applicant) => applicant._id !== id
+              );
+            }
+          },
     }
 });
-export const {setAllApplicants} = applicationSlice.actions;
+export const {setAllApplicants,removeApplicant} = applicationSlice.actions;
 export default applicationSlice.reducer;
