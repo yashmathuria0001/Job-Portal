@@ -11,7 +11,7 @@ import path from "path"
 dotenv.config({});
 import bodyParser from "body-parser";
 
-const _diranme=path.resolve();
+const _dirname=path.resolve();
 const app=express();
 
 //middleware
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());//Parses cookies sent with incoming HTTP requests and makes them accessible through req.cookies.
 const corsOptions={
-    origin:['https://job-portal-br2f.onrender.com'],
+    origin:['https://job-portal-br2f.onrender.com','http://localhost:8000'],
     credentials:true
 }
 app.use(cors(corsOptions));
@@ -35,7 +35,7 @@ app.use("/api/v1/company",companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 
-app.use(express.static(path.join(_diranme,"/frontend/dist")))
+app.use(express.static(path.join(_dirname,"/frontend/dist")))
 
 app.get('*',(req,res)=>{
     res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"));
