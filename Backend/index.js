@@ -9,16 +9,17 @@ import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 import path from "path"
 dotenv.config({});
+import bodyParser from "body-parser";
 
 const _diranme=path.resolve();
 const app=express();
 
 //middleware
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());//Parses cookies sent with incoming HTTP requests and makes them accessible through req.cookies.
 const corsOptions={
-    origin:['http://localhost:5173','https://job-portal-z2n5.vercel.app/'],
+    origin:['https://job-portal-br2f.onrender.com'],
     credentials:true
 }
 app.use(cors(corsOptions));
