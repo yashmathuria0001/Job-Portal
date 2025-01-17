@@ -1,6 +1,6 @@
 import React, { useState } from "react"; // Import useState from React
 import "./App.css";
-import Navbar from "./components/shared/Navbar.Jsx";
+import Navbar from "./components/shared/Navbar";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
