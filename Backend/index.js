@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());//Parses cookies sent with incoming HTTP requests and makes them accessible through req.cookies.
 const corsOptions={
-    origin:'http://localhost:8000',
+    origin:'https://job-portal-v7al.onrender.com/',
     credentials:true
 }
 app.use(cors(corsOptions));
