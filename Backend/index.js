@@ -1,4 +1,4 @@
-import express from "express";
+import express,{urlencoded} from "express";
 import cookieParser from"cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";//in env file we provide database username and passowrd for authetication
