@@ -8,8 +8,9 @@ import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 import path from "path"
-dotenv.config({});
+
 import bodyParser from "body-parser";
+dotenv.config({});
 
 const _dirname=path.resolve();
 const app=express();
@@ -17,6 +18,7 @@ const app=express();
 //middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(urlencoded({extended:true}));
 app.use(cookieParser());//Parses cookies sent with incoming HTTP requests and makes them accessible through req.cookies.
 const corsOptions={
     origin:'https://job-portal-v7al.onrender.com',
