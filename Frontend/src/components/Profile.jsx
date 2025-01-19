@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./shared/Navbar";
 import { Avatar, AvatarImage } from "./ui/avatar";
-import { useSelector } from "react-redux";
+import { useSelector} from "react-redux";
 import { Button } from "./ui/button";
 import { Contact, Mail, Pen } from "lucide-react";
 import { Label } from "./ui/label";
@@ -10,6 +10,7 @@ import AppliedJobTable from "../components/AppliedJobTable";
 import { useState } from "react";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
+import { useNavigate } from "react-router-dom";
 
 // const skills = ["Html", "css", "javascipt"];
 const Profile = () => {
@@ -62,7 +63,8 @@ const Profile = () => {
               <div className='grid w-full max-w-sm items-center gap-1.5'>
                   <Label className="text-md font-bold">Resume</Label>
                   {
-                      isResume ? <a target='blank' href={user?.profile?.resume} className='text-blue-500 w-full hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a> : <span>NA</span>
+                      user?.profile?.resume ? (<a target='blank' href={user?.profile?.resume} className='w-full text-blue-500 hover:underline cursor-pointer'>{user?.profile?.resumeOriginalName}</a>) : <span>NA</span>
+                    
                   }
               </div>
           </div>
