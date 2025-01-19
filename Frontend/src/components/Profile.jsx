@@ -11,7 +11,7 @@ import { useState } from "react";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect } from "react";
 // const skills = ["Html", "css", "javascipt"];
 const Profile = () => {
   useGetAppliedJobs();
