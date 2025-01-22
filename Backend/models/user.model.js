@@ -22,6 +22,18 @@ const userSchema=new mongoose.Schema({
         enum:['student','recruiter'],
         required:true
     },
+    
+    otp: {
+        type: String, // Store OTP as a number
+      },
+      otpTimestamp: {
+        type: Date, // Timestamp for OTP to handle expiration
+        default:Date.now
+      },
+      isVerified: {
+        type: Boolean,
+        default: false, // Initially set to false. Only set to true after OTP verification
+      },
     profile:{
         bio:{type:String},
         skills:[{type:String}],

@@ -3,7 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import cloudinary from "../utils/cloudinary.js";
 import getDataUri from "../utils/datauri.js";
-
+import otpGenerator from "../utils/otpGenerator.js";
+import sendOtpEmail from "../utils/mailer.js"
 export const register = async (req, res) => {
   try {
     const { fullname, email, phoneNumber, password, role } = req.body;
@@ -17,8 +18,16 @@ export const register = async (req, res) => {
     const file = req.file;
  
     const fileUri = getDataUri(file);
-    const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-
+    let cloudResponse;
+    try {
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+    } catch (error) {
+      console.error("Cloudinary Upload Error:", error);
+      return res.status(500).json({
+        message: "Error uploading profile photo.",
+        success: false,
+      });
+    }
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
@@ -26,6 +35,8 @@ export const register = async (req, res) => {
         success: false,
       });
     }
+    const otp=otpGenerator();
+    const otpTimestamp=Date.now();
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await User.create({
@@ -34,17 +45,31 @@ export const register = async (req, res) => {
       phoneNumber,
       password: hashedPassword,
       role,
+      otp,
+      otpTimestamp,
       profile: {
         profilePhoto: cloudResponse.secure_url,
       },
     });
-
+    try {
+      sendOtpEmail(email, otp);
+    } catch (error) {
+      console.error("Email Sending Error:", error);
+      return res.status(500).json({
+        message: "Error sending OTP. Please try again.",
+        success: false,
+      });
+    }
     return res.status(201).json({
       message: "Account created successfully.",
       success: true,
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Internal server error.",
+      success: false,
+    });
   }
 };
 export const login = async (req, res) => {
@@ -180,5 +205,92 @@ export const updateProfile = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Server error", success: false });
+  }
+};
+
+export const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    // Check if OTP is provided
+    if (!otp || !email) {
+      return res.status(400).json({
+        message: "Email and OTP are required.",
+        success: false,
+      });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        message: 'User not found.',
+        success: false,
+      });
+    }
+
+    // Check if OTP has expired (valid for 5 minutes)
+    if (Date.now() - user.otpTimestamp > 5 * 60 * 1000) {
+      // Delete the user if OTP expired
+      await User.deleteOne({ email });
+
+      return res.status(400).json({
+        message: 'OTP expired. User deleted.',
+        success: false,
+      });
+    }
+
+    // Validate OTP
+    if (user.otp !== otp) {
+      // Delete the user if OTP is incorrect
+     
+
+      return res.status(400).json({
+        message: 'Invalid OTP',
+        success: false,
+      });
+    }
+
+    // If OTP is valid, set isVerified to true and clear OTP data
+    user.isVerified = true;
+    
+    user.otp = null;
+    user.otpTimestamp = null;
+    await user.save();
+    
+
+    return res.status(200).json({
+      message: 'OTP verified successfully.',
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Internal server error.',
+      success: false,
+    });
+  }
+};
+
+export const resendOtp = async (req, res) => {
+  const {email} = req.body;
+
+  try {
+    const user = await User.findOne({email});
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found.", success: false });
+    }
+
+    const otp = otpGenerator();
+    user.otp = otp;
+    user.otpTimestamp = Date.now();
+    await user.save();
+
+    sendOtpEmail(email, otp); // Send the OTP email
+
+    res.status(200).json({ message: "OTP sent successfully.", success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error.", success: false });
   }
 };
