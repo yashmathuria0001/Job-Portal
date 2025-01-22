@@ -16,6 +16,7 @@ import CompanySetup from "./components/Admin/CompanySetup";
 import AdminJobs from "./components/Admin/AdminJobs";
 import PostJob from "./components/Admin/PostJob";
 import Applicants from "./components/Admin/Applicants";
+import OtpAuth from "./components/auth/OtpAuth";
 const appRouter = createBrowserRouter([
   {
     path: "/",
