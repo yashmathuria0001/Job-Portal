@@ -30,6 +30,10 @@ const appRouter = createBrowserRouter([
     element: <Signup />,
   },
   {
+    path:"OtpAuth",
+    element:<OtpAuth/>
+  },
+  {
     path:"/Jobs",
     element:<Jobs/>
   },
